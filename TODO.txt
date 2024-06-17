@@ -1,0 +1,2 @@
+TODO
+- 'test connectivity' action: should validate a connection to a TAXII server

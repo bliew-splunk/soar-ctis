@@ -1,4 +1,4 @@
-# File: splunk_connector.py
+# File: ctis_connector.py
 #
 # Copyright (c) 2016-2024 Splunk Inc.
 #
@@ -62,7 +62,8 @@ class RetVal(tuple):
         return tuple.__new__(RetVal, (val1, val2))
 
 
-class SplunkConnector(BaseConnector):
+class CTISConnector(BaseConnector):
+    # TODO: remove unused actions & related code
 
     ACTION_ID_POST_DATA = "post_data"
     ACTION_ID_RUN_QUERY = "run_query"
@@ -72,7 +73,7 @@ class SplunkConnector(BaseConnector):
     def __init__(self):
 
         # Call the BaseConnectors init first
-        super(SplunkConnector, self).__init__()
+        super(CTISConnector, self).__init__()
         self._service = None
         self._base_url = None
         self.splunk_server = None
@@ -1465,7 +1466,7 @@ if __name__ == '__main__':
         in_json = json.loads(in_json)
         print(json.dumps(in_json, indent=4))
 
-        connector = SplunkConnector()
+        connector = CTISConnector()
         connector.print_progress_message = True
 
         if (session_id is not None):

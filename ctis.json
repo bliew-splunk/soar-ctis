@@ -1,0 +1,226 @@
+{
+    "appid": "56856118-8c28-4327-851e-2caea4e0659e",
+    "name": "CTIS",
+    "description": "Submit threat intelligence (IOCs) to a TAXII v2.1 Server",
+    "publisher": "Splunk",
+    "contributors": [
+        {
+            "name": "Ben Liew"
+        }
+    ],
+    "type": "threat intel",
+    "main_module": "ctis_connector.py",
+    "app_version": "0.0.1",
+    "utctime_updated": "2024-06-17T00:13:37.000000Z",
+    "package_name": "soar-ctis",
+    "product_name": "TAXII v2.1 Client / CTIS",
+    "product_vendor": "OASIS / ASD",
+    "product_version_regex": ".*",
+    "min_phantom_version": "6.1.1",
+    "fips_compliant": false,
+    "python_version": "3",
+    "latest_tested_versions": [
+        "TAXII v2.1"
+    ],
+    "logo": "logo_splunk.svg",
+    "logo_dark": "logo_splunk_dark.svg",
+    "license": "Copyright (c) 2016-2024 Splunk Inc.",
+    "pip_dependencies": {
+        "wheel": []
+    },
+    "configuration": {
+        "url": {
+            "description": "Base URL of the TAXII REST Server",
+            "order": 0,
+            "data_type": "string"
+        },
+        "username": {
+            "description": "Username",
+            "order": 1,
+            "data_type": "string"
+        },
+        "password": {
+            "description": "Password",
+            "order": 2,
+            "data_type": "password"
+        }
+    },
+    "actions": [
+        {
+            "action": "test connectivity",
+            "description": "Validate the asset configuration for connectivity. This action logs into the device to check the connection and credentials",
+            "type": "test",
+            "identifier": "test_asset_connectivity",
+            "read_only": true,
+            "parameters": {},
+            "output": [],
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "get host events",
+            "description": "Get events pertaining to a host that have occurred in the last 'N' days",
+            "verbose": "<ul><li>The <b>last_n_days</b> parameter must be greater than 0.</li><li>The action will search for the events of the hostname (provided in the 'ip_hostname' parameter) in the default index configured on the Splunk instance.</li></ul>",
+            "type": "investigate",
+            "identifier": "get_host_events",
+            "read_only": true,
+            "parameters": {
+                "ip_hostname": {
+                    "description": "Hostname/IP to search the events of",
+                    "data_type": "string",
+                    "order": 0,
+                    "contains": [
+                        "ip",
+                        "host name"
+                    ],
+                    "required": true,
+                    "primary": true
+                },
+                "last_n_days": {
+                    "description": "Number of days ago",
+                    "data_type": "numeric",
+                    "order": 1
+                }
+            },
+            "render": {
+                "type": "table",
+                "width": 12,
+                "height": 5,
+                "title": "Search Results"
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.ip_hostname",
+                    "data_type": "string",
+                    "example_values": [
+                        "test_host"
+                    ],
+                    "contains": [
+                        "ip",
+                        "host name"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.last_n_days",
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*._bkt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*._cd",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*._indextime",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*._raw",
+                    "column_name": "Raw",
+                    "column_order": 2,
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*._serial",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*._si",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*._sourcetype",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*._time",
+                    "column_name": "Time",
+                    "column_order": 1,
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.host",
+                    "column_name": "Host",
+                    "column_order": 0,
+                    "data_type": "string",
+                    "contains": [
+                        "host name"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.index",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.linecount",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.source",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.sourcetype",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.splunk_server",
+                    "data_type": "string",
+                    "contains": [
+                        "host name"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.sid",
+                    "data_type": "string",
+                    "example_values": [
+                        "1612177958.977510"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.total_events",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Sid: 1621953772.25264, Total events: 1"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "versions": "EQ(*)"
+        }
+    ],
+    "pip39_dependencies": {
+        "wheel": [
+
+        ]
+    }
+}
