@@ -1,2 +1,61 @@
 TODO
-- 'test connectivity' action: should validate a connection to a TAXII server
+- 'test connectivity' action: should validate a connection to a TAXII server [DONE]
+- 'submit indicator from artifact': extract one data point from an artifact and submit to collection
+- action to build an Indicator JSON object from an artifact:
+    - input: container_id, artifact_id and cef field?
+    - https://stix2.readthedocs.io/en/latest/api/stix2.v21.html#stix2.v21.Indicator
+    - common required: type, spec_version, id, created, modified (all auto-generated with the lib)
+    - required inputs:
+        - pattern=some STIX pattern
+        - pattern_type=stix (pattern-type-ov)
+Sample SOAR artifact JSON:
+{
+  "count": 1,
+  "num_pages": 1,
+  "data": [
+    {
+      "tags": [
+        "abc"
+      ],
+      "id": 1,
+      "cef": {
+        "requestURL": "http://182.113.29.64:43527/i"
+      },
+      "cef_types": {
+
+      },
+      "container": 1,
+      "create_time": "2024-06-04T19:59:37.778559Z",
+      "description": null,
+      "end_time": null,
+      "external_id": null,
+      "hash": "38b978cc22be793c102d3be6c8e11098",
+      "ingest_app": null,
+      "kill_chain": null,
+      "label": "event",
+      "name": "URL",
+      "owner": 1,
+      "playbook_run": null,
+      "severity": "medium",
+      "source_data_identifier": "ee8cdf4b-f047-4117-8096-a55f34701309",
+      "start_time": "2024-06-04T19:59:37.781512Z",
+      "type": null,
+      "update_time": "2024-06-17T02:07:16.411109Z",
+      "version": 1,
+      "in_case": false,
+      "has_note": false,
+      "parent_container": null,
+      "parent_artifact": null
+    }
+  ]
+}
+Sample of STIX patterns: https://docs.oasis-open.org/cti/stix/v2.1/os/stix-v2.1-os.html#_alhyho8zsnmv
+https://stix2.readthedocs.io/en/latest/guide/patterns.html
+Matching a File with a SHA-256 hash
+[file:hashes.'SHA-256' = 'aec070645fe53ee3b3763059376134f058cc337247c978add178b6ccdfb0019f']
+
+Matching on a URL
+[url:value = 'http://example.com/foo' OR url:value = 'http://example.com/bar']
+
+Match IPv4
+[ipv4-addr:value = '198.51.100.1/32']

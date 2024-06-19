@@ -10,15 +10,22 @@ from __future__ import print_function, unicode_literals
 import json
 import traceback
 
+from phantom.utils import config as phconfig
+import phantom.rules as phrules
+# import phantom.api as phapi
+# from phantom.api import data_access as ph_data_access
 # Phantom App imports
 import phantom.app as phantom
 # Usage of the consts file is recommended
 # from abc_consts import *
 import requests
 from phantom.action_result import ActionResult
-from phantom.base_connector import BaseConnector
+from phantom.base_connector import BaseConnector, REST_BASE_URL
+from urllib.parse import urljoin
 
 from taxii_client import TAXIIClient
+
+assert REST_BASE_URL.endswith("/")
 
 
 class RetVal(tuple):
@@ -74,6 +81,14 @@ class CTISConnector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
+    def _handle_generate_indicator_stix_json(self, action_result, param):
+        container_id = param['container_id']
+        artifact_id = param['artifact_id']
+        cef_field = param['cef_field']
+        self.save_progress(f"Generating STIX JSON for {param}")
+        raise NotImplementedError("This function is not implemented yet")
+        pass
+
     def handle_action(self, param):
         # Get the action that we are supposed to execute for this App Run
         action_id = self.get_action_identifier()
@@ -82,7 +97,8 @@ class CTISConnector(BaseConnector):
 
         actions = {
             'test_connectivity': self._handle_test_connectivity,
-            'add_object_to_collection': self._handle_add_object_to_collection
+            'add_object_to_collection': self._handle_add_object_to_collection,
+            'generate_indicator_stix_json': self._handle_generate_indicator_stix_json
         }
         action_result = self.add_action_result(ActionResult(dict(param)))
         if action_id not in actions:
@@ -94,7 +110,24 @@ class CTISConnector(BaseConnector):
             self.save_progress(f"Error in action {action_id}: {stack_trace}")
             return action_result.set_status(phantom.APP_ERROR, stack_trace)
 
+    # TODO: change this to query a single artifact by ID.
+    #  can use GET /rest/container/1/artifacts?_filter_id=1
+    #  then assert that len(resp["data"]) == 1
+    def get_artifacts_rest(self, container_id):
+        endpoint = urljoin(REST_BASE_URL, f"container/{container_id}/artifacts")
+        self.save_progress(f"Getting artifacts from {endpoint}")
+        response = requests.get(endpoint, verify=phconfig.platform_strict_tls)
+        response.raise_for_status()
+        resp_json = response.json()
+        self.save_progress(f"Response: {resp_json}")
+        return resp_json
+
     def initialize(self):
+        self.save_progress(f"Listing module: {dir(phrules)}")
+
+        # TODO: remove this call
+        self.get_artifacts_rest(container_id=1)
+
         # Load the state in initialize, use it to store data
         # that needs to be accessed across actions
         self._state = self.load_state()
