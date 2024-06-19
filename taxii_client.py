@@ -45,10 +45,13 @@ class TAXIIClient:
         return collection.get_objects()
 
     def add_object_to_collection(self, collection_id: str, object_: dict):
+        assert type(object_) == dict
         envelope = {
             "objects": [object_]
         }
-        return self.get_collection(collection_id).add_objects(envelope)
+        resp = self.get_collection(collection_id).add_objects(envelope)
+        self.log(f"Added object to collection {collection_id}. Response: {vars(resp)}")
+        return resp
 
     def list_collections(self) -> list:
         return self.api_root.collections

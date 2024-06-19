@@ -7,16 +7,17 @@
 # Python 3 Compatibility imports
 from __future__ import print_function, unicode_literals
 
+import json
+import traceback
+
 # Phantom App imports
 import phantom.app as phantom
-from phantom.base_connector import BaseConnector
-from phantom.action_result import ActionResult
-
 # Usage of the consts file is recommended
 # from abc_consts import *
 import requests
-import json
-from bs4 import BeautifulSoup
+from phantom.action_result import ActionResult
+from phantom.base_connector import BaseConnector
+
 from taxii_client import TAXIIClient
 
 
@@ -39,9 +40,11 @@ class CTISConnector(BaseConnector):
         # Do note that the app json defines the asset config, so please
         # modify this as you deem fit.
         self._base_url = None
+        self.username = None
+        self.password = None
+        self.client = None
 
-    def _handle_test_connectivity(self, param):
-        action_result = self.add_action_result(ActionResult(dict(param)))
+    def _handle_test_connectivity(self, action_result, param):
 
         # NOTE: test connectivity does _NOT_ take any parameters
         # i.e. the param dictionary passed to this handler will be empty.
@@ -50,16 +53,25 @@ class CTISConnector(BaseConnector):
 
         self.save_progress(f"Connecting to TAXII Server at {self._base_url}")
 
-        # TODO: Move to initialize()?
-        client = TAXIIClient(api_root_url=self._base_url, username=self.username, password=self.password,
-                             log_function=self.debug_print)
         try:
-            client.test_connection()
+            self.client.test_connection()
         except requests.exceptions.RequestException as e:
             self.save_progress("Test Connectivity Failed.")
             return action_result.set_status(phantom.APP_ERROR, str(e))
 
         self.save_progress("Test Connectivity Passed")
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_add_object_to_collection(self, action_result, param):
+        collection_id = param.get('collection_id')
+        object_ = param.get('object')
+        self.save_progress(f"Adding object to collection {collection_id}")
+        self.save_progress(f"collection_id: {collection_id}, object: {object_}")
+
+        object_dict = json.loads(object_)
+        self.save_progress(f"object deserialized: {object_dict}")
+        self.client.add_object_to_collection(collection_id, object_dict)
+
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def handle_action(self, param):
@@ -68,12 +80,19 @@ class CTISConnector(BaseConnector):
 
         self.debug_print("action_id", self.get_action_identifier())
 
-        if action_id == 'test_connectivity':
-            ret_val = self._handle_test_connectivity(param)
-        else:
-            raise ValueError(f"Unknown action_id: {action_id}")
-
-        return ret_val
+        actions = {
+            'test_connectivity': self._handle_test_connectivity,
+            'add_object_to_collection': self._handle_add_object_to_collection
+        }
+        action_result = self.add_action_result(ActionResult(dict(param)))
+        if action_id not in actions:
+            return action_result.set_status(phantom.APP_ERROR, f"Unknown action_id: {action_id}")
+        try:
+            return actions[action_id](action_result, param)
+        except (Exception,):
+            stack_trace = traceback.format_exc()
+            self.save_progress(f"Error in action {action_id}: {stack_trace}")
+            return action_result.set_status(phantom.APP_ERROR, stack_trace)
 
     def initialize(self):
         # Load the state in initialize, use it to store data
@@ -95,6 +114,8 @@ class CTISConnector(BaseConnector):
         self._base_url = config['base_url']
         self.username = config['username']
         self.password = config['password']
+        self.client = TAXIIClient(api_root_url=self._base_url, username=self.username, password=self.password,
+                                  log_function=self.save_progress)
 
         return phantom.APP_SUCCESS
 
