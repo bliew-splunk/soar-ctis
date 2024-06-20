@@ -1,4 +1,4 @@
-from cef_to_stix import convert_cef_to_stix_pattern
+from cef_to_stix import convert_cef_to_stix_pattern, build_indicator_stix
 import pytest
 
 
@@ -6,7 +6,8 @@ def compare_stix_pattern_to_string(stix_pattern, expected_string):
     assert str(stix_pattern) == expected_string
 
 
-class TestCefToStix:
+# Convert from Splunk SOAR CEF field name to STIX2 pattern
+class TestCEFToSTIXPattern:
 
     def test_ipv4(self):
         # the ip CEF field is assumed to be an IPv4 address?
@@ -27,3 +28,13 @@ class TestCefToStix:
         compare_stix_pattern_to_string(
             convert_cef_to_stix_pattern(cef_field, '2.3.4.5'),
             "[network-traffic:src_ref.type = 'ipv4-addr' AND network-traffic:src_ref.value = '2.3.4.5']")
+
+
+class TestBuildIndicatorSTIXJSON:
+
+    def test_ipv4(self):
+        indicator_json = build_indicator_stix("ip", "1.2.3.4")
+        assert indicator_json["id"].startswith("indicator--")
+        assert indicator_json["type"] == "indicator"
+        assert indicator_json["pattern"] == "[ipv4-addr:value = '1.2.3.4']"
+        assert indicator_json["pattern_type"] == "stix"

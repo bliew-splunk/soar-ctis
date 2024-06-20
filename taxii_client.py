@@ -51,7 +51,7 @@ class TAXIIClient:
         }
         resp = self.get_collection(collection_id).add_objects(envelope)
         self.log(f"Added object to collection {collection_id}. Response: {vars(resp)}")
-        return resp
+        return resp._raw
 
     def list_collections(self) -> list:
         return self.api_root.collections
@@ -71,4 +71,5 @@ if __name__ == '__main__':
     )
     ind1_dict = json.loads(ind1.serialize())
     print(ind1_dict)
-    client.add_object_to_collection(collection_id='365fed99-08fa-fdcd-a1b3-fb247eb41d01', object_=ind1_dict)
+    resp = client.add_object_to_collection(collection_id='365fed99-08fa-fdcd-a1b3-fb247eb41d01', object_=ind1_dict)
+    print(resp)

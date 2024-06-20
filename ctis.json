@@ -10,7 +10,7 @@
   ],
   "type": "threat intel",
   "main_module": "ctis_connector.py",
-  "app_version": "0.0.11",
+  "app_version": "0.0.13",
   "utctime_updated": "2024-06-17T00:13:37.000000Z",
   "package_name": "soar-ctis",
   "product_name": "TAXII v2.1 Client / CTIS",
@@ -65,31 +65,36 @@
     },
     {
       "action": "generate indicator stix json",
-      "description": "generate indicator stix json",
+      "description": "Given an artifact and specific CEF field, generate a STIX 2.1 Indicator JSON object",
       "type": "generic",
       "identifier": "generate_indicator_stix_json",
       "read_only": true,
       "parameters": {
         "container_id": {
           "order": 0,
-          "required" : true,
+          "required": true,
           "description": "Container ID",
           "data_type": "string"
         },
         "artifact_id": {
           "order": 1,
-          "required" : true,
+          "required": true,
           "description": "Artifact ID",
           "data_type": "string"
         },
         "cef_field": {
           "order": 2,
-          "required" : true,
+          "required": true,
           "description": "Which CEF field to use as the indicator value",
           "data_type": "string"
         }
       },
-      "output": [],
+      "output": [
+        {
+          "data_path": "action_result.data.*.json",
+          "data_type": "string"
+        }
+      ],
       "versions": "EQ(*)"
     },
     {
@@ -101,18 +106,27 @@
       "parameters": {
         "collection_id": {
           "order": 0,
-          "required" : true,
+          "required": true,
           "description": "Collection ID",
           "data_type": "string"
         },
         "object": {
           "order": 1,
-          "required" : true,
+          "required": true,
           "description": "STIX 2.1 Object JSON",
           "data_type": "string"
         }
       },
-      "output": [],
+      "output": [
+        {
+          "data_path": "action_result.data.*.response.id",
+          "data_type": "string"
+        },
+        {
+          "data_path": "action_result.data.*.response.status",
+          "data_type": "string"
+        }
+      ],
       "versions": "EQ(*)"
     }
   ]

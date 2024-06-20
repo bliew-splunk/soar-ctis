@@ -24,7 +24,8 @@ from phantom.base_connector import BaseConnector, REST_BASE_URL
 from urllib.parse import urljoin
 
 from taxii_client import TAXIIClient
-from cef_to_stix import convert_cef_to_stix_pattern
+import cef_to_stix
+
 assert REST_BASE_URL.endswith("/")
 
 
@@ -77,8 +78,10 @@ class CTISConnector(BaseConnector):
 
         object_dict = json.loads(object_)
         self.save_progress(f"object deserialized: {object_dict}")
-        self.client.add_object_to_collection(collection_id, object_dict)
+        resp = self.client.add_object_to_collection(collection_id, object_dict)
+        self.save_progress(f"Response: {resp}")
 
+        action_result.add_data({"response": resp})
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_generate_indicator_stix_json(self, action_result, param):
@@ -90,7 +93,8 @@ class CTISConnector(BaseConnector):
         self.save_progress(f"Artifact: {artifact}")
 
         if cef_field not in artifact['cef']:
-            return action_result.set_status(phantom.APP_ERROR, f"CEF field {cef_field} not found in artifact {artifact_id}")
+            return action_result.set_status(phantom.APP_ERROR,
+                                            f"CEF field {cef_field} not found in artifact {artifact_id}")
 
         value = artifact['cef'][cef_field]
         self.save_progress(f"Value: {cef_field}={value}")
@@ -102,9 +106,9 @@ class CTISConnector(BaseConnector):
         else:
             normalized_cef_field = cef_field
 
-        stix_pattern = convert_cef_to_stix_pattern(normalized_cef_field, value)
-        self.save_progress(f"STIX Pattern: {stix_pattern}")
-
+        stix_dict = cef_to_stix.build_indicator_stix(normalized_cef_field, value)
+        self.save_progress(f"STIX JSON: {stix_dict}")
+        action_result.add_data({"json": json.dumps(stix_dict)})
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def handle_action(self, param):

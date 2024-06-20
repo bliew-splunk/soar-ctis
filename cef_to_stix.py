@@ -1,4 +1,6 @@
 from stix2 import AndBooleanExpression, EqualityComparisonExpression, IPv4Address, ObjectPath, ObservationExpression
+from stix2 import Indicator
+import json
 
 STIX_TYPE_IPV4 = "ipv4-addr"
 
@@ -47,3 +49,14 @@ def convert_cef_to_stix_pattern(cef_field_name: str, cef_field_value: str) -> Ob
         return handle_source_ipv4(cef_field_value)
     else:
         raise NotImplementedError("WIP")
+
+
+def build_indicator_stix(cef_field_name: str, cef_field_value: str) -> dict:
+    pattern = convert_cef_to_stix_pattern(cef_field_name, cef_field_value)
+
+    # TODO: add more fields to the indicator
+    # https://stix2.readthedocs.io/en/latest/api/stix2.v21.html#stix2.v21.Indicator
+    indicator = Indicator(pattern=pattern,
+                          pattern_type="stix")
+    indicator_json = str(indicator)
+    return json.loads(indicator_json)
