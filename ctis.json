@@ -10,7 +10,7 @@
   ],
   "type": "threat intel",
   "main_module": "ctis_connector.py",
-  "app_version": "0.0.7",
+  "app_version": "0.0.11",
   "utctime_updated": "2024-06-17T00:13:37.000000Z",
   "package_name": "soar-ctis",
   "product_name": "TAXII v2.1 Client / CTIS",
@@ -64,8 +64,8 @@
       "versions": "EQ(*)"
     },
     {
-      "action": "generate indicator STIX JSON",
-      "description": "generate indicator STIX JSON",
+      "action": "generate indicator stix json",
+      "description": "generate indicator stix json",
       "type": "generic",
       "identifier": "generate_indicator_stix_json",
       "read_only": true,

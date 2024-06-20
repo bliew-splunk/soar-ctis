@@ -24,7 +24,7 @@ from phantom.base_connector import BaseConnector, REST_BASE_URL
 from urllib.parse import urljoin
 
 from taxii_client import TAXIIClient
-
+from cef_to_stix import convert_cef_to_stix_pattern
 assert REST_BASE_URL.endswith("/")
 
 
@@ -86,8 +86,26 @@ class CTISConnector(BaseConnector):
         artifact_id = param['artifact_id']
         cef_field = param['cef_field']
         self.save_progress(f"Generating STIX JSON for {param}")
-        raise NotImplementedError("This function is not implemented yet")
-        pass
+        artifact = self.get_artifact(container_id, artifact_id)
+        self.save_progress(f"Artifact: {artifact}")
+
+        if cef_field not in artifact['cef']:
+            return action_result.set_status(phantom.APP_ERROR, f"CEF field {cef_field} not found in artifact {artifact_id}")
+
+        value = artifact['cef'][cef_field]
+        self.save_progress(f"Value: {cef_field}={value}")
+        cef_types = artifact['cef_types']
+        self.save_progress(f"cef_types: {cef_types}")
+        if cef_field in cef_types:
+            assert len(cef_types[cef_field]) == 1
+            normalized_cef_field = cef_types[cef_field][0]
+        else:
+            normalized_cef_field = cef_field
+
+        stix_pattern = convert_cef_to_stix_pattern(normalized_cef_field, value)
+        self.save_progress(f"STIX Pattern: {stix_pattern}")
+
+        return action_result.set_status(phantom.APP_SUCCESS)
 
     def handle_action(self, param):
         # Get the action that we are supposed to execute for this App Run
@@ -110,23 +128,23 @@ class CTISConnector(BaseConnector):
             self.save_progress(f"Error in action {action_id}: {stack_trace}")
             return action_result.set_status(phantom.APP_ERROR, stack_trace)
 
-    # TODO: change this to query a single artifact by ID.
-    #  can use GET /rest/container/1/artifacts?_filter_id=1
-    #  then assert that len(resp["data"]) == 1
-    def get_artifacts_rest(self, container_id):
+    def get_artifact(self, container_id, artifact_id) -> dict:
         endpoint = urljoin(REST_BASE_URL, f"container/{container_id}/artifacts")
         self.save_progress(f"Getting artifacts from {endpoint}")
-        response = requests.get(endpoint, verify=phconfig.platform_strict_tls)
+        response = requests.get(endpoint, params={"_filter_id": artifact_id}, verify=phconfig.platform_strict_tls)
         response.raise_for_status()
         resp_json = response.json()
         self.save_progress(f"Response: {resp_json}")
-        return resp_json
+        data = resp_json["data"]
+        assert type(data) == list
+        assert len(data) == 1
+        only_artifact = data[0]
+        assert "id" in only_artifact
+        assert "cef" in only_artifact
+        return only_artifact
 
     def initialize(self):
-        self.save_progress(f"Listing module: {dir(phrules)}")
-
-        # TODO: remove this call
-        self.get_artifacts_rest(container_id=1)
+        # self.save_progress(f"Listing module: {dir(phrules)}")
 
         # Load the state in initialize, use it to store data
         # that needs to be accessed across actions

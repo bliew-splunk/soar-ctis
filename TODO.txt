@@ -59,3 +59,5 @@ Matching on a URL
 
 Match IPv4
 [ipv4-addr:value = '198.51.100.1/32']
+
+[ipv4-addr:value = '203.0.113.1' OR ipv4-addr:value = '203.0.113.2']
