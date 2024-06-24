@@ -9,22 +9,18 @@ from __future__ import print_function, unicode_literals
 
 import json
 import traceback
+from urllib.parse import urljoin
 
-from phantom.utils import config as phconfig
-import phantom.rules as phrules
-# import phantom.api as phapi
-# from phantom.api import data_access as ph_data_access
-# Phantom App imports
 import phantom.app as phantom
 # Usage of the consts file is recommended
 # from abc_consts import *
 import requests
 from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector, REST_BASE_URL
-from urllib.parse import urljoin
+from phantom.utils import config as phconfig
 
-from taxii_client import TAXIIClient
 import cef_to_stix
+from taxii_client import TAXIIClient
 
 assert REST_BASE_URL.endswith("/")
 
@@ -44,13 +40,11 @@ class CTISConnector(BaseConnector):
 
         self._state = None
 
-        # Variable to hold a base_url in case the app makes REST calls
-        # Do note that the app json defines the asset config, so please
-        # modify this as you deem fit.
         self._base_url = None
         self.username = None
         self.password = None
         self.client = None
+        self.export_tag = None
 
     def _handle_test_connectivity(self, action_result, param):
 
@@ -111,6 +105,11 @@ class CTISConnector(BaseConnector):
         action_result.add_data({"json": json.dumps(stix_dict)})
         return action_result.set_status(phantom.APP_SUCCESS)
 
+    def _handle_on_poll(self, action_result, param):
+        self.save_progress(f"ON POLL: export_tag={self.export_tag}")
+        self.save_progress(f"ON POLL: {param}")
+        return action_result.set_status(phantom.APP_SUCCESS, "ON POLL")
+
     def handle_action(self, param):
         # Get the action that we are supposed to execute for this App Run
         action_id = self.get_action_identifier()
@@ -120,7 +119,8 @@ class CTISConnector(BaseConnector):
         actions = {
             'test_connectivity': self._handle_test_connectivity,
             'add_object_to_collection': self._handle_add_object_to_collection,
-            'generate_indicator_stix_json': self._handle_generate_indicator_stix_json
+            'generate_indicator_stix_json': self._handle_generate_indicator_stix_json,
+            'on_poll': self._handle_on_poll
         }
         action_result = self.add_action_result(ActionResult(dict(param)))
         if action_id not in actions:
@@ -148,8 +148,6 @@ class CTISConnector(BaseConnector):
         return only_artifact
 
     def initialize(self):
-        # self.save_progress(f"Listing module: {dir(phrules)}")
-
         # Load the state in initialize, use it to store data
         # that needs to be accessed across actions
         self._state = self.load_state()
@@ -171,6 +169,7 @@ class CTISConnector(BaseConnector):
         self.password = config['password']
         self.client = TAXIIClient(api_root_url=self._base_url, username=self.username, password=self.password,
                                   log_function=self.save_progress)
+        self.export_tag = config['export_tag']
 
         return phantom.APP_SUCCESS
 

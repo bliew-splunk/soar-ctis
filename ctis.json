@@ -10,7 +10,7 @@
   ],
   "type": "threat intel",
   "main_module": "ctis_connector.py",
-  "app_version": "0.0.13",
+  "app_version": "0.0.14",
   "utctime_updated": "2024-06-17T00:13:37.000000Z",
   "package_name": "soar-ctis",
   "product_name": "TAXII v2.1 Client / CTIS",
@@ -50,6 +50,13 @@
       "description": "Password",
       "order": 2,
       "data_type": "password"
+    },
+    "export_tag": {
+      "description": "Scheduled submission: tag to filter for indicators to export to CTIS",
+      "data_type": "string",
+      "required": false,
+      "default" : "ctis_export",
+      "order": 3
     }
   },
   "actions": [
@@ -127,6 +134,42 @@
           "data_type": "string"
         }
       ],
+      "versions": "EQ(*)"
+    },
+    {
+      "action": "on poll",
+      "identifier": "on_poll",
+      "description": "Batch submission of IOCs",
+      "type": "ingest",
+      "read_only": false,
+      "parameters": {
+        "start_time": {
+          "description": "Parameter Ignored in this app",
+          "data_type": "numeric",
+          "order": 0
+        },
+        "end_time": {
+          "description": "Parameter Ignored in this app",
+          "data_type": "numeric",
+          "order": 1
+        },
+        "container_id": {
+          "description": "Parameter Ignored in this app",
+          "data_type": "numeric",
+          "order": 2
+        },
+        "container_count": {
+          "description": "Parameter Ignored in this app",
+          "data_type": "numeric",
+          "order": 3
+        },
+        "artifact_count": {
+          "description": "Parameter Ignored in this app",
+          "data_type": "numeric",
+          "order": 4
+        }
+      },
+      "output": [],
       "versions": "EQ(*)"
     }
   ]
