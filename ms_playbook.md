@@ -34,6 +34,8 @@ Example: TLP WHITE definition
 ### Indicators list
 Example indicator object.
 - TLP is specified via `object_marking_refs`, which references the static TLP marking-definition object
+- For the SOAR integration, we could tag the indicator with the generated STIX indicator id, and reuse if we want to resubmit the same indicator
+  - possibly use a prefix too, like `stix:indicator--abc123`
 ```json
 {
   "created": "",
@@ -70,21 +72,27 @@ https://docs.oasis-open.org/cti/stix/v2.1/os/stix-v2.1-os.html#_wh296fiwpklp
 ```
 
 ### Grouping
+Sample from '4.4.2 Relationships'
+Relates multiple objects together.
+This might be a stretch goal, as this is a higher-level abstraction
+
+What is still not clear in the MS playbook, is what criteria is used to group indicators?
 ```json
 {
-  "type": "Compose",
-  "inputs": {
-    "confidence": "@min(variables('GroupingConfidence'))",
-    "context": "suspicious-activity",
-    "created": "@formatDateTime(string(utcNow()), 'yyyy-MM-ddTHH:mm:ss.ffffffK')",
-    "created_by_ref": "@variables('CreatedByRefObjId')",
-    "description": "@first(variables('GroupingDescription'))",
-    "id": "grouping--@{guid()}",
-    "modified": "@formatDateTime(string(utcNow()), 'yyyy-MM-ddTHH:mm:ss.ffffffK')",
-    "object_marking_refs": "@union(variables('GroupingMarkingRefObjs'), variables('GroupingMarkingRefObjs'))",
-    "object_refs": "@union(variables('GroupingIndicators'), variables('GroupingIndicators'))",
-    "spec_version": "2.1",
-    "type": "grouping"
-  }
+  "type": "grouping",
+  "spec_version": "2.1",
+  "id": "grouping--84e4d88f-44ea-4bcd-bbf3-b2c1c320bcb3",
+  "created_by_ref": "identity--a463ffb3-1bd9-4d94-b02d-74e4f1658283",
+  "created": "2015-12-21T19:59:11.000Z",
+  "modified": "2015-12-21T19:59:11.000Z",
+  "name": "The Black Vine Cyberespionage Group",
+  "description": "A simple collection of Black Vine Cyberespionage Group attributed intel",
+  "context": "suspicious-activity",
+  "object_refs": [
+    "indicator--26ffb872-1dd9-446e-b6f5-d58527e5b5d2",
+    "campaign--83422c77-904c-4dc1-aff5-5c38f3a2c55c",
+    "relationship--f82356ae-fe6c-437c-9c24-6b64314ae68a",
+    "file--0203b5c8-f8b6-4ddb-9ad0-527d727f968b"
+  ]
 }
 ```

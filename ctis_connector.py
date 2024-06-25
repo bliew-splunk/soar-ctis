@@ -79,30 +79,13 @@ class CTISConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_generate_indicator_stix_json(self, action_result, param):
-        container_id = param['container_id']
-        artifact_id = param['artifact_id']
-        cef_field = param['cef_field']
+        indicator_id = param['indicator_id']
         self.save_progress(f"Generating STIX JSON for {param}")
-        artifact = self.get_artifact(container_id, artifact_id)
-        self.save_progress(f"Artifact: {artifact}")
+        indicator = self.get_indicator(indicator_id=indicator_id)
 
-        if cef_field not in artifact['cef']:
-            return action_result.set_status(phantom.APP_ERROR,
-                                            f"CEF field {cef_field} not found in artifact {artifact_id}")
-
-        value = artifact['cef'][cef_field]
-        self.save_progress(f"Value: {cef_field}={value}")
-        cef_types = artifact['cef_types']
-        self.save_progress(f"cef_types: {cef_types}")
-        if cef_field in cef_types:
-            assert len(cef_types[cef_field]) == 1
-            normalized_cef_field = cef_types[cef_field][0]
-        else:
-            normalized_cef_field = cef_field
-
-        stix_dict = cef_to_stix.build_indicator_stix(normalized_cef_field, value)
-        self.save_progress(f"STIX JSON: {stix_dict}")
-        action_result.add_data({"json": json.dumps(stix_dict)})
+        # stix_dict = cef_to_stix.build_indicator_stix(normalized_cef_field, value)
+        # self.save_progress(f"STIX JSON: {stix_dict}")
+        # action_result.add_data({"json": json.dumps(stix_dict)})
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_on_poll(self, action_result, param):
@@ -131,6 +114,20 @@ class CTISConnector(BaseConnector):
             stack_trace = traceback.format_exc()
             self.save_progress(f"Error in action {action_id}: {stack_trace}")
             return action_result.set_status(phantom.APP_ERROR, stack_trace)
+
+    def get_indicator(self, indicator_id: str) -> dict:
+        endpoint = urljoin(REST_BASE_URL, f"indicator/{indicator_id}")
+        self.save_progress(f"Getting indicator from {endpoint}")
+        response = requests.get(endpoint, params={
+            "_special_fields": True,
+            "_special_labels": True,
+            "_special_contains": True,
+            "_special_severity": True
+        }, verify=phconfig.platform_strict_tls)
+        response.raise_for_status()
+        resp_json = response.json()
+        self.save_progress(f"Response: {resp_json}")
+        raise NotImplementedError
 
     def get_artifact(self, container_id, artifact_id) -> dict:
         endpoint = urljoin(REST_BASE_URL, f"container/{container_id}/artifacts")
