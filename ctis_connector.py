@@ -64,28 +64,40 @@ class CTISConnector(BaseConnector):
         self.save_progress("Test Connectivity Passed")
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_add_object_to_collection(self, action_result, param):
+    def _handle_add_objects_to_collection(self, action_result, param):
         collection_id = param.get('collection_id')
-        object_ = param.get('object')
-        self.save_progress(f"Adding object to collection {collection_id}")
-        self.save_progress(f"collection_id: {collection_id}, object: {object_}")
+        objects_json_str = param.get('objects')
+        self.save_progress(f"Adding objects to collection {collection_id}")
+        self.save_progress(f"collection_id: {collection_id}, objects: {objects_json_str}")
 
-        object_dict = json.loads(object_)
-        self.save_progress(f"object deserialized: {object_dict}")
-        resp = self.client.add_object_to_collection(collection_id, object_dict)
+        objects_list = json.loads(objects_json_str)
+        assert type(objects_list) == list
+        self.save_progress(f"objects deserialized: {objects_list}")
+        resp = self.client.add_objects_to_collection(collection_id, objects_list)
         self.save_progress(f"Response: {resp}")
 
         action_result.add_data({"response": resp})
         return action_result.set_status(phantom.APP_SUCCESS)
 
+    # TODO: Consider another action which doesn't rely on an existing Indicator
+    #   so user can give any cef_field_names and cef_value
     def _handle_generate_indicator_stix_json(self, action_result, param):
         indicator_id = param['indicator_id']
         self.save_progress(f"Generating STIX JSON for {param}")
         indicator = self.get_indicator(indicator_id=indicator_id)
+        cef_fields = indicator.get("_special_fields")
+        cef_value = indicator.get("value")
+        if cef_value is None:
+            self.save_progress(f"Indicator {indicator_id} does not have a value")
+            return action_result.set_status(phantom.APP_ERROR, "Indicator does not have a value")
+        if cef_fields is None:
+            self.save_progress(f"Indicator {indicator_id} does not have any CEF fields")
+            return action_result.set_status(phantom.APP_ERROR, "Indicator does not have any CEF fields")
+        assert type(cef_fields) == list
 
-        # stix_dict = cef_to_stix.build_indicator_stix(normalized_cef_field, value)
-        # self.save_progress(f"STIX JSON: {stix_dict}")
-        # action_result.add_data({"json": json.dumps(stix_dict)})
+        stix_dict = cef_to_stix.build_indicator_stix(cef_fields, cef_value)
+        self.save_progress(f"STIX JSON: {stix_dict}")
+        action_result.add_data({"json": json.dumps(stix_dict)})
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_on_poll(self, action_result, param):
@@ -101,7 +113,7 @@ class CTISConnector(BaseConnector):
 
         actions = {
             'test_connectivity': self._handle_test_connectivity,
-            'add_object_to_collection': self._handle_add_object_to_collection,
+            'add_objects_to_collection': self._handle_add_objects_to_collection,
             'generate_indicator_stix_json': self._handle_generate_indicator_stix_json,
             'on_poll': self._handle_on_poll
         }
@@ -126,8 +138,8 @@ class CTISConnector(BaseConnector):
         }, verify=phconfig.platform_strict_tls)
         response.raise_for_status()
         resp_json = response.json()
-        self.save_progress(f"Response: {resp_json}")
-        raise NotImplementedError
+        assert type(resp_json) == dict
+        return resp_json
 
     def get_artifact(self, container_id, artifact_id) -> dict:
         endpoint = urljoin(REST_BASE_URL, f"container/{container_id}/artifacts")

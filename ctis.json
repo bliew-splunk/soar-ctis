@@ -10,7 +10,7 @@
   ],
   "type": "threat intel",
   "main_module": "ctis_connector.py",
-  "app_version": "0.0.15",
+  "app_version": "0.0.17",
   "utctime_updated": "2024-06-17T00:13:37.000000Z",
   "package_name": "soar-ctis",
   "product_name": "TAXII v2.1 Client / CTIS",
@@ -93,10 +93,10 @@
       "versions": "EQ(*)"
     },
     {
-      "action": "add object to collection",
-      "description": "Add object to a collection",
+      "action": "add objects to collection",
+      "description": "Add objects to a collection",
       "type": "generic",
-      "identifier": "add_object_to_collection",
+      "identifier": "add_objects_to_collection",
       "read_only": false,
       "parameters": {
         "collection_id": {
@@ -105,10 +105,10 @@
           "description": "Collection ID",
           "data_type": "string"
         },
-        "object": {
+        "objects": {
           "order": 1,
           "required": true,
-          "description": "STIX 2.1 Object JSON",
+          "description": "JSON encoded Array of STIX 2.1 Objects",
           "data_type": "string"
         }
       },
