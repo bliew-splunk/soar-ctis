@@ -1,11 +1,12 @@
 import json
-from typing import List
+from typing import List, Union
 
-from stix2 import AndBooleanExpression, EqualityComparisonExpression, Indicator, ObjectPath, ObservationExpression, \
+from stix2 import Indicator, ObservationExpression, \
     OrBooleanExpression, ParentheticalExpression
 from stix2.patterns import _PatternExpression
 
-STIX_TYPE_IPV4 = "ipv4-addr"
+from cef_to_stix.hostname import handle_destination_hostname, handle_hostname, handle_source_hostname
+from cef_to_stix.ip_address import handle_destination_ipv4, handle_ip, handle_source_ipv4
 
 # See result from https://13.54.218.11/rest/cef?page_size=1000
 #
@@ -31,8 +32,8 @@ TODO: Implement most common CEF fields
 """
 
 
-def build_indicator_stix(cef_field_name: str, cef_field_value: str) -> dict:
-    pattern = convert_cef_to_stix_observation_pattern(cef_field_name, cef_field_value)
+def build_indicator_stix(cef_field_name_or_list: Union[str, List], cef_field_value: str) -> dict:
+    pattern = convert_cef_to_stix_observation_pattern(cef_field_name_or_list, cef_field_value)
 
     # TODO: add more fields to the indicator
     # https://stix2.readthedocs.io/en/latest/api/stix2.v21.html#stix2.v21.Indicator
@@ -55,43 +56,13 @@ def convert_multiple_cef_fields_to_stix_observation_pattern(cef_field_names: Lis
     return ObservationExpression(expr)
 
 
-def convert_cef_to_stix_observation_pattern(cef_field_name: str, cef_field_value: str) -> ObservationExpression:
-    pattern = get_stix_expression_for_cef_field(cef_field_name, cef_field_value)
-    return ObservationExpression(pattern)
-
-
-def handle_ip(cef_field_value: str) -> _PatternExpression:
-    return EqualityComparisonExpression(ObjectPath(STIX_TYPE_IPV4, ["value"]), cef_field_value)
-
-
-def handle_destination_ipv4(cef_field_value: str) -> _PatternExpression:
-    dst_ref_type = EqualityComparisonExpression(ObjectPath("network-traffic", ["dst_ref", "type"]), STIX_TYPE_IPV4)
-    dst_ref_value = EqualityComparisonExpression(ObjectPath("network-traffic", ["dst_ref", "value"]),
-                                                 cef_field_value)
-    return AndBooleanExpression([dst_ref_type, dst_ref_value])
-
-
-def handle_source_ipv4(cef_field_value: str) -> _PatternExpression:
-    dst_ref_type = EqualityComparisonExpression(ObjectPath("network-traffic", ["src_ref", "type"]), STIX_TYPE_IPV4)
-    dst_ref_value = EqualityComparisonExpression(ObjectPath("network-traffic", ["src_ref", "value"]),
-                                                 cef_field_value)
-    return AndBooleanExpression([dst_ref_type, dst_ref_value])
-
-
-def handle_hostname(cef_field_value: str) -> _PatternExpression:
-    return EqualityComparisonExpression(ObjectPath("domain-name", ["value"]), cef_field_value)
-
-
-def handle_source_hostname(cef_field_value: str) -> _PatternExpression:
-    type_expr = EqualityComparisonExpression(ObjectPath("network-traffic", ["src_ref", "type"]), "domain-name")
-    value_expr = EqualityComparisonExpression(ObjectPath("network-traffic", ["src_ref", "value"]), cef_field_value)
-    return AndBooleanExpression([type_expr, value_expr])
-
-
-def handle_destination_hostname(cef_field_value: str) -> _PatternExpression:
-    type_expr = EqualityComparisonExpression(ObjectPath("network-traffic", ["dst_ref", "type"]), "domain-name")
-    value_expr = EqualityComparisonExpression(ObjectPath("network-traffic", ["dst_ref", "value"]), cef_field_value)
-    return AndBooleanExpression([type_expr, value_expr])
+def convert_cef_to_stix_observation_pattern(cef_field_name_or_list: Union[str, List],
+                                            cef_field_value: str) -> ObservationExpression:
+    if isinstance(cef_field_name_or_list, str):
+        pattern = get_stix_expression_for_cef_field(cef_field_name_or_list, cef_field_value)
+        return ObservationExpression(pattern)
+    else:
+        return convert_multiple_cef_fields_to_stix_observation_pattern(cef_field_name_or_list, cef_field_value)
 
 
 MAP_OF_CEF_FIELD_TO_PATTERN_FUNCTION = {
