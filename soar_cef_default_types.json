@@ -1,0 +1,1018 @@
+{
+  "count": 151,
+  "num_pages": 1,
+  "data": [
+    {
+      "id": 1,
+      "name": "act",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 2,
+      "name": "app",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 3,
+      "name": "applicationProtocol",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 4,
+      "name": "baseEventCount",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 5,
+      "name": "bytesIn",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 6,
+      "name": "bytesOut",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 7,
+      "name": "cat",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 8,
+      "name": "cn1",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 9,
+      "name": "cn1Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 10,
+      "name": "cn2",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 11,
+      "name": "cn2Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 12,
+      "name": "cn3",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 13,
+      "name": "cn3Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 14,
+      "name": "cnt",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 15,
+      "name": "cs1",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 16,
+      "name": "cs1Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 17,
+      "name": "cs2",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 18,
+      "name": "cs2Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 19,
+      "name": "cs3",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 20,
+      "name": "cs3Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 21,
+      "name": "cs4",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 22,
+      "name": "cs4Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 23,
+      "name": "cs5",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 24,
+      "name": "cs5Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 25,
+      "name": "cs6",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 26,
+      "name": "cs6Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 27,
+      "name": "destinationAddress",
+      "data_type": [
+        "ip"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 28,
+      "name": "destinationDnsDomain",
+      "data_type": [
+        "domain"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 29,
+      "name": "destinationHostName",
+      "data_type": [
+        "host name"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 30,
+      "name": "destinationMacAddress",
+      "data_type": [
+        "mac address"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 31,
+      "name": "destinationNtDomain",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 32,
+      "name": "destinationPort",
+      "data_type": [
+        "port"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 33,
+      "name": "destinationProcessName",
+      "data_type": [
+        "process name"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 34,
+      "name": "destinationServiceName",
+      "data_type": [
+        "process name"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 35,
+      "name": "destinationTranslatedAddress",
+      "data_type": [
+        "ip"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 36,
+      "name": "destinationTranslatedPort",
+      "data_type": [
+        "port"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 37,
+      "name": "destinationUserId",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 38,
+      "name": "destinationUserName",
+      "data_type": [
+        "user name"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 39,
+      "name": "destinationUserPrivileges",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 40,
+      "name": "deviceAction",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 41,
+      "name": "deviceAddress",
+      "data_type": [
+        "ip"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 42,
+      "name": "deviceCustomDate1",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 43,
+      "name": "deviceCustomDate1Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 44,
+      "name": "deviceCustomDate2",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 45,
+      "name": "deviceCustomDate2Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 46,
+      "name": "deviceCustomNumber1",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 47,
+      "name": "deviceCustomNumber1Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 48,
+      "name": "deviceCustomNumber2",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 49,
+      "name": "deviceCustomNumber2Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 50,
+      "name": "deviceCustomNumber3",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 51,
+      "name": "deviceCustomNumber3Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 52,
+      "name": "deviceCustomString1",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 53,
+      "name": "deviceCustomString1Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 54,
+      "name": "deviceCustomString2",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 55,
+      "name": "deviceCustomString2Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 56,
+      "name": "deviceCustomString3",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 57,
+      "name": "deviceCustomString3Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 58,
+      "name": "deviceCustomString4",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 59,
+      "name": "deviceCustomString4Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 60,
+      "name": "deviceCustomString5",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 61,
+      "name": "deviceCustomString5Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 62,
+      "name": "deviceCustomString6",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 63,
+      "name": "deviceCustomString6Label",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 64,
+      "name": "deviceDirection",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 65,
+      "name": "deviceDnsDomain",
+      "data_type": [
+        "domain"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 66,
+      "name": "deviceEventCategory",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 67,
+      "name": "deviceExternalId",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 68,
+      "name": "deviceFacility",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 69,
+      "name": "deviceHostname",
+      "data_type": [
+        "host name"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 70,
+      "name": "deviceInboundInterface",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 71,
+      "name": "deviceMacAddress",
+      "data_type": [
+        "mac address"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 72,
+      "name": "deviceOutboundInterface",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 73,
+      "name": "deviceProcessName",
+      "data_type": [
+        "process name"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 74,
+      "name": "deviceTranslatedAddress",
+      "data_type": [
+        "ip"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 75,
+      "name": "dhost",
+      "data_type": [
+        "host name"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 76,
+      "name": "dmac",
+      "data_type": [
+        "mac address"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 77,
+      "name": "dntdom",
+      "data_type": [
+        "domain"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 78,
+      "name": "dpriv",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 79,
+      "name": "dproc",
+      "data_type": [
+        "process name"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 80,
+      "name": "dpt",
+      "data_type": [
+        "port"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 81,
+      "name": "dst",
+      "data_type": [
+        "ip"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 82,
+      "name": "duid",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 83,
+      "name": "duser",
+      "data_type": [
+        "user name"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 84,
+      "name": "dvc",
+      "data_type": [
+        "ip"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 85,
+      "name": "dvchost",
+      "data_type": [
+        "host name"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 86,
+      "name": "end",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 87,
+      "name": "endTime",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 88,
+      "name": "eventOutcome",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 89,
+      "name": "externalId",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 90,
+      "name": "fileCreateTime",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 91,
+      "name": "fileHash",
+      "data_type": [
+        "hash"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 92,
+      "name": "fileHashMd5",
+      "data_type": [
+        "md5"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 93,
+      "name": "fileHashSha1",
+      "data_type": [
+        "sha1"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 94,
+      "name": "fileHashSha256",
+      "data_type": [
+        "sha256"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 95,
+      "name": "fileHashSha512",
+      "data_type": [
+        "sha512"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 96,
+      "name": "fileId",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 97,
+      "name": "fileModificationTime",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 98,
+      "name": "fileName",
+      "data_type": [
+        "file name"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 99,
+      "name": "filePath",
+      "data_type": [
+        "file path"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 100,
+      "name": "filePermission",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 101,
+      "name": "fileSize",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 102,
+      "name": "fileType",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 103,
+      "name": "fname",
+      "data_type": [
+        "file name"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 104,
+      "name": "fsize",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 105,
+      "name": "in",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 106,
+      "name": "message",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 107,
+      "name": "msg",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 108,
+      "name": "oldfileCreateTime",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 109,
+      "name": "oldfileHash",
+      "data_type": [
+        "hash"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 110,
+      "name": "oldfileId",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 111,
+      "name": "oldfileModificationTime",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 112,
+      "name": "oldfileName",
+      "data_type": [
+        "file name"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 113,
+      "name": "oldfilePath",
+      "data_type": [
+        "file path"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 114,
+      "name": "oldfilePermission",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 115,
+      "name": "oldfileType",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 116,
+      "name": "oldfsize",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 117,
+      "name": "out",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 118,
+      "name": "outcome",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 119,
+      "name": "proto",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 120,
+      "name": "receiptTime",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 121,
+      "name": "request",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 122,
+      "name": "requestClientApplication",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 123,
+      "name": "requestCookies",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 124,
+      "name": "requestMethod",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 125,
+      "name": "requestURL",
+      "data_type": [
+        "url"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 126,
+      "name": "rt",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 127,
+      "name": "shost",
+      "data_type": [
+        "host name"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 128,
+      "name": "smac",
+      "data_type": [
+        "mac address"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 129,
+      "name": "sntdom",
+      "data_type": [
+        "domain"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 130,
+      "name": "sourceAddress",
+      "data_type": [
+        "ip"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 131,
+      "name": "sourceDnsDomain",
+      "data_type": [
+        "domain"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 132,
+      "name": "sourceHostName",
+      "data_type": [
+        "host name"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 133,
+      "name": "sourceMacAddress",
+      "data_type": [
+        "mac address"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 134,
+      "name": "sourceNtDomain",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 135,
+      "name": "sourcePort",
+      "data_type": [
+        "port"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 136,
+      "name": "sourceServiceName",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 137,
+      "name": "sourceTranslatedAddress",
+      "data_type": [
+        "ip"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 138,
+      "name": "sourceTranslatedPort",
+      "data_type": [
+        "port"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 139,
+      "name": "sourceUserId",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 140,
+      "name": "sourceUserName",
+      "data_type": [
+        "user name"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 141,
+      "name": "sourceUserPrivileges",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 142,
+      "name": "spriv",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 143,
+      "name": "spt",
+      "data_type": [
+        "port"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 144,
+      "name": "src",
+      "data_type": [
+        "ip"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 145,
+      "name": "start",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 146,
+      "name": "startTime",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 147,
+      "name": "suid",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 148,
+      "name": "suser",
+      "data_type": [
+        "user name"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 149,
+      "name": "transportProtocol",
+      "data_type": [],
+      "type": "default"
+    },
+    {
+      "id": 150,
+      "name": "vaultId",
+      "data_type": [
+        "vault id"
+      ],
+      "type": "default"
+    },
+    {
+      "id": 151,
+      "name": "someip",
+      "data_type": [
+        "ip"
+      ],
+      "type": "custom"
+    }
+  ]
+}
